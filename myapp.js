@@ -1,5 +1,5 @@
 var myapp = angular.module('myapp',[]);
-
+//var fs= require('fs');
 myapp.controller('employeesController', function ($scope,$http) {
 
     $scope.newEmployee={};
@@ -8,6 +8,8 @@ myapp.controller('employeesController', function ($scope,$http) {
     $scope.reverse= true;
     $scope.employeeClick=null;
     $scope.clickFlag=false;
+
+
     $http.get('employees.json').
         then(function onSuccess (response) {
             $scope.listEmployees=response.data.Employees;
@@ -30,7 +32,7 @@ myapp.controller('employeesController', function ($scope,$http) {
     $scope.add= function () {
         if($scope.newEmployee.userId==null)
         {
-            $scope.listEmployees.push($scope.newEmployee)
+            $scope.listEmployees.push($scope.newEmployee);
         }else{
             alert("you can't add employee")
         }
@@ -86,4 +88,27 @@ myapp.controller('employeesController', function ($scope,$http) {
 
     }
 
+
+    /**
+     * to save the new list on Json file
+     */
+    var saveJson = function () {
+         var listToJson = {};
+
+        listToJson['Emoloyees']=$scope.listEmployees;
+
+        fs.writeFile("./newList.json", JSON.stringify(listToJson), (err)=>{
+            if(err)
+            {
+                console.log(err);
+                return;
+            };
+            console.log("File has been created");
+        });
+
+
+
+
+
+    }
 });
