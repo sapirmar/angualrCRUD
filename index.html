@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html  lang="en" ng-app="myapp">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="myapp.js"></script>
+    <meta charset="UTF-8">
+    <title>CRUD</title>
+</head>
+<body ng-controller="employeesController">
+<button ng-click="propertyName= null; reverse=false">Unsorted</button>
+<label>Search by name:   <input ng-model="searchText.firstName"></label>
+<form>
+    <label>Job</label>
+    <input type="text" ng-model="newEmployee.jobTitleName" />
+    <label>Name</label>
+    <input type="text" ng-model="newEmployee.firstName" />
+    <input type="hidden" ng-model="newEmployee.id" />
+    <input type="button" value="Save" ng-click="save()">
+   <input type="button" value="add" ng-click="add()">
+
+</form>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Job</th>
+        <th>
+            <button ng-click="sortBy('firstName')">Name</button>
+           <span ng-show="propertyName === 'firstName'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th><span ng-click="add()">Add New</span></th>
+    </tr>
+    <tr ng-repeat="employee in listEmployees | orderBy: propertyName:reverse | filter:searchText ">
+        <td>{{employee.userId}}</td>
+
+        <td>
+           <span>{{employee.jobTitleName}}</span>
+        </td>
+        <td>
+            <span>{{employee.firstName}}</span>
+        </td>
+        <td>
+                <a href="#" ng-click="del($index)"> Delete</a>
+                <a href="#" ng-click="selectEdit($index)">Edit</a>
+                <a href="#" ng-click="moreDetails(employee.userId)">More</a>
+        </td>
+    </tr>
+</table>
+<p>
+<ul ng-show="clickFlag">{{employeeClick.firstName}} :
+<li>{{employeeClick.region}}</li>
+</ul>
+</p>
+</body>
+</html>
