@@ -2,14 +2,17 @@ var myapp = angular.module('myapp',[]);
 //var fs= require('fs');
 myapp.controller('employeesController', function ($scope,$http) {
 
-    $scope.newEmployee={};
+    $scope.newEmployee={}; // for the save/add
     $scope.listEmployees=[];
-    $scope.propertyName= 'firstName';
-    $scope.reverse= true;
-    $scope.employeeClick=null;
-    $scope.clickFlag=false;
+    $scope.propertyName= 'firstName';   //for the sort
+    $scope.reverse= true;               //for the sort
+    $scope.employeeClick=null;          //for more information
+    $scope.clickFlag=false;              //for more information
 
 
+    /**
+     * get the data from the json file
+     */
     $http.get('employees.json').
         then(function onSuccess (response) {
             $scope.listEmployees=response.data.Employees;
@@ -19,16 +22,27 @@ myapp.controller('employeesController', function ($scope,$http) {
         console.log(response)
     })
 
+    /**
+     * delete function
+     * @param index
+     */
     $scope.del= function (index) {
         if (confirm("Are you sure to Delete ?")) {
             $scope.listEmployees.splice(index,1);
         }
     }
+    /**
+     * edit function
+     * @param index
+     */
     $scope.selectEdit= function(index)
     {
         $scope.newEmployee= angular.copy($scope.listEmployees[index]);
 
     }
+    /**
+     * add function
+     */
     $scope.add= function () {
         if($scope.newEmployee.userId==null)
         {
@@ -38,6 +52,9 @@ myapp.controller('employeesController', function ($scope,$http) {
         }
         $scope.newEmployee={}
     }
+    /**
+     * save function
+     */
     $scope.save= function(){
 
         if($scope.newEmployee.userId==null)
@@ -56,10 +73,11 @@ myapp.controller('employeesController', function ($scope,$http) {
         }
         $scope.newEmployee={}
 
-
-
     }
-
+    /**
+     * sort function by parameter
+     * @param propertyName
+     */
     $scope.sortBy= function(propertyName)
     {
         if($scope.propertyName=== propertyName)
@@ -73,6 +91,10 @@ myapp.controller('employeesController', function ($scope,$http) {
         $scope.propertyName= propertyName;
     }
 
+    /**
+     * more information function
+     * @param userId
+     */
     $scope.moreDetails= function (userId) {
 
         for(var i=0; i<$scope.listEmployees.length;i++)
@@ -90,7 +112,8 @@ myapp.controller('employeesController', function ($scope,$http) {
 
 
     /**
-     * to save the new list on Json file
+     * to save the new list on Json file.
+     * test.
      */
     var saveJson = function () {
          var listToJson = {};
